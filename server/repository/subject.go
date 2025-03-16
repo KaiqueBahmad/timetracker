@@ -5,9 +5,9 @@ import (
 )
 
 type Subject struct {
-	ID     int64
-	Name   string
-	UserID int64
+    ID     int64  `json:"id"`
+    Name   string `json:"name"`
+    UserID int64  `json:"user_id"`
 }
 
 type SubjectRepository struct {

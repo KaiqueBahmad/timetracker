@@ -6,11 +6,11 @@ import (
 )
 
 type User struct {
-	ID           int64
-	Username     string
-	Email        string
-	PasswordHash string
-	CreatedAt    time.Time
+    ID           int64     `json:"id"`
+    Username     string    `json:"username"`
+    Email        string    `json:"email"`
+    PasswordHash string    `json:"-"`
+    CreatedAt    time.Time `json:"-"`
 }
 
 type UserRepository struct {
