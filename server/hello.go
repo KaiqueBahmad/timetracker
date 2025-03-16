@@ -3,29 +3,31 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"github.com/kaiquebahmad/timetracker/server/repository"
+	"github.com/kaiquebahmad/timetracker/server/handler"
 	_ "modernc.org/sqlite"
 )
 
 
 func main() {
-    // Create DB connection
-    dbConn, err := repository.NewDBConnection()
-    if err != nil {
-        log.Fatal("Failed to connect to database:", err)
-    }
-    defer dbConn.Close() // Ensure connection is closed when program exits
-    
-    // Create repositories using the shared connection
-    userRepo := repository.NewUserRepository(dbConn.DB)
-    // subjectRepo := repository.NewSubjectRepository(dbConn.DB)
-	
-	users, err := userRepo.GetAll()
-	if err != nil{
-		log.Fatal("Failed: ", err)
+	// Inicializa a conexão com o banco de dados
+	dbConn, err := repository.NewDBConnection()
+	if err != nil {
+		log.Fatal("Falha ao conectar ao banco de dados:", err)
 	}
+	defer dbConn.Close()
 
-	for index, user := range users {
-		fmt.Printf("%d\t%d\t%s\n",index, user.ID, user.Username)
+	userRepo := repository.NewUserRepository(dbConn.DB)
+	
+	userHandler := handlers.NewUserHandler(userRepo)
+
+	http.HandleFunc("/api/users", userHandler.CreateUser)
+
+	port := 8080
+	fmt.Printf("Servidor iniciado na porta %d...\n", port)
+	err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	if err != nil {
+		log.Fatal("Erro ao iniciar o servidor:", err)
 	}
 }
