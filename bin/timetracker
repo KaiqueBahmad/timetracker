@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Obtém o diretório onde o script está instalado (a pasta bin)
+BIN_DIR=$(dirname "$(readlink -f "$0")")
+
+# Obtém o diretório pai (a pasta do projeto timetracker)
+PROJECT_DIR=$(dirname "$BIN_DIR")
+
+# Navega para o diretório do projeto para manter as referências corretas entre arquivos
+cd "$PROJECT_DIR"
+
+# Executa o script Python principal com todos os argumentos passados
+python3 "$PROJECT_DIR/timetracker.py" "$@"
