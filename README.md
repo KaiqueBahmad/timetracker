@@ -1,4 +1,4 @@
-# Gerenciador de Horas
+# Timetracker
 
 Ferramenta de linha de comando para rastrear horas de trabalho.
 
