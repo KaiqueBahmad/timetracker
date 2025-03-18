@@ -38,4 +38,11 @@ class Helper():
         calendar_parser = subparsers.add_parser('calendar', help='Mostrar calendário visual do mês')
         calendar_parser.add_argument('offset', type=int, nargs='?', default=0, 
                                 help='Deslocamento do mês (0=atual, -1=anterior, 1=próximo)')
+        
+        # Comando 'export'
+        export_parser = subparsers.add_parser('export', help='Exportar relatório em formato específico')
+        export_parser.add_argument('formato', help='Formato de exportação (ex: csv, pdf, xlsx)')
+        export_parser.add_argument('empresa', help='Nome da empresa')
+        export_parser.add_argument('data', nargs='?', help='Mês/Ano no formato MM/YY (ex: 02/25)')
+
         return parser

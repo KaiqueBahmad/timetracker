@@ -1,5 +1,6 @@
 from services.cursesService import show_calendar, show_watch_time
 from services.dataConsultingService import get_current_status, show_records
+from services.exportService import export_data
 from services.trackService import start_tracking, stop_tracking
 
 
@@ -12,7 +13,9 @@ class TimetrackerController:
         "saldo"     :   lambda args:print("Ainda não implementado"), #calcular_saldo(args.empresa, args.meta)
         "status"    :   lambda args:get_current_status(),
         "watch"     :   lambda args:show_watch_time(),
-        "calendar"  :   lambda args:show_calendar()
+        "calendar"  :   lambda args:show_calendar(),
+        "export"    :   lambda args: export_data(args.formato, args.empresa, args.data if hasattr(args, 'data') else None)
+
     }
     
     @staticmethod
