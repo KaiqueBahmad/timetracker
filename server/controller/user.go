@@ -44,21 +44,21 @@ func (c *UserController) GetUserByID(ctx *gin.Context) {
 
 func (c *UserController) CreateUser(ctx *gin.Context) {
 	var user repository.User
-	
+
 	if err := ctx.ShouldBindJSON(&user); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": "Dados inválidos: " + err.Error(),
 		})
 		return
 	}
-	
+
 	if user.Username == "" || user.Email == "" || user.PasswordHash == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": "Username, email e senha são obrigatórios",
 		})
 		return
 	}
-	
+
 	id, err := c.UserRepository.Create(user)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
@@ -66,16 +66,16 @@ func (c *UserController) CreateUser(ctx *gin.Context) {
 		})
 		return
 	}
-	
+
 	createdUser, err := c.UserRepository.GetByID(id)
 	if err != nil {
 		ctx.JSON(http.StatusCreated, gin.H{
-			"id": id,
+			"id":      id,
 			"message": "Usuário criado com sucesso",
 		})
 		return
 	}
-	
+
 	ctx.JSON(http.StatusCreated, createdUser)
 }
 
@@ -88,7 +88,7 @@ func (c *UserController) UpdateUser(ctx *gin.Context) {
 		})
 		return
 	}
-	
+
 	existingUser, err := c.UserRepository.GetByID(id)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
@@ -96,7 +96,7 @@ func (c *UserController) UpdateUser(ctx *gin.Context) {
 		})
 		return
 	}
-	
+
 	var updateData repository.User
 	if err := ctx.ShouldBindJSON(&updateData); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -104,9 +104,9 @@ func (c *UserController) UpdateUser(ctx *gin.Context) {
 		})
 		return
 	}
-	
+
 	updateData.ID = id
-	
+
 	if updateData.Username == "" {
 		updateData.Username = existingUser.Username
 	}
@@ -116,7 +116,7 @@ func (c *UserController) UpdateUser(ctx *gin.Context) {
 	if updateData.PasswordHash == "" {
 		updateData.PasswordHash = existingUser.PasswordHash
 	}
-	
+
 	err = c.UserRepository.Update(updateData)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
@@ -124,7 +124,7 @@ func (c *UserController) UpdateUser(ctx *gin.Context) {
 		})
 		return
 	}
-	
+
 	updatedUser, err := c.UserRepository.GetByID(id)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
@@ -132,6 +132,6 @@ func (c *UserController) UpdateUser(ctx *gin.Context) {
 		})
 		return
 	}
-	
+
 	ctx.JSON(http.StatusOK, updatedUser)
 }
