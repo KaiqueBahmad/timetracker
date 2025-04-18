@@ -25,17 +25,6 @@ def get_company_id(nome_empresa):
     
     return empresa_id
 
-def get_company_id(empresa):
-    conn = getConnection()
-    cursor = conn.cursor()
-    
-    cursor.execute("SELECT id FROM empresas WHERE nome = ?", (empresa,))
-    result = cursor.fetchone()
-    
-    conn.close()
-    
-    return result[0] if result else None
-
 def get_time_records(empresa_id, date_obj=None):
     conn = getConnection()
     cursor = conn.cursor()
