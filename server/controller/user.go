@@ -22,11 +22,18 @@ func (c *UserController) RegisterRoutes(router *gin.Engine, prefix string) {
 	userGroup := router.Group(prefix)
 	{
 		userGroup.POST("/", c.CreateUser)
-		userGroup.GET("/me", c.GetUserByID)
+		userGroup.GET("/:id", c.GetUserByID)
 		userGroup.PUT("/:id", c.UpdateUser)
 	}
 }
 
+// FindUserById kaique
+// @Description Finds a user by ID
+// @Param		userId path int true "find user by ID"
+// @Produce		application/json
+// @Tags		User
+// @Success		200 {object} repository.User{}
+// @Router		/users/{userId} [get]
 func (c *UserController) GetUserByID(ctx *gin.Context) {
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
