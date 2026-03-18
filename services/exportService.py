@@ -3,9 +3,11 @@ import importlib
 import sys
 from pathlib import Path
 from exporters.ExcelExporter import exportToExcel
+from exporters.HTMLExporter import exportToHTML
 
 format_implementations = {
     'xls': exportToExcel,
+    'html': exportToHTML,
 }
 
 def export_data(formato, empresa, data=None):

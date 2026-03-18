@@ -73,7 +73,9 @@ def exportToExcel(empresa, date_obj=None):
                 fim_data = ''
                 fim_hora = ''
             
-            row_data = [record_id, inicio_data, inicio_hora, fim_data, fim_hora, duracao]
+            # Converter duração de segundos para minutos
+            duracao_minutos = int(duracao / 60) if duracao else 0
+            row_data = [record_id, inicio_data, inicio_hora, fim_data, fim_hora, duracao_minutos]
             for col_num, value in enumerate(row_data, 1):
                 cell = ws[f'{get_column_letter(col_num)}{row_num}']
                 cell.value = value
@@ -86,12 +88,14 @@ def exportToExcel(empresa, date_obj=None):
         ws[f'A{total_row}'] = "Total de Horas"
         ws[f'A{total_row}'].font = Font(bold=True)
         
-        total_minutes = sum(record[3] or 0 for record in records)
+        # Calcular total (duração está em segundos no banco)
+        total_seconds = sum(record[3] or 0 for record in records)
+        total_minutes = total_seconds / 60
         total_hours = total_minutes / 60
         
         hours = int(total_hours)
         minutes = int((total_hours - hours) * 60)
-        ws[f'F{total_row}'] = f"{hours}h {minutes}min ({total_minutes} min)"
+        ws[f'F{total_row}'] = f"{hours}h {minutes}min ({int(total_minutes)} min)"
         ws[f'F{total_row}'].font = Font(bold=True)
         
         os.makedirs("exports", exist_ok=True)

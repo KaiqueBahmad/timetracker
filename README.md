@@ -18,3 +18,6 @@ Para usar o gerenciador de qualquer diretório, adicione a pasta bin ao PATH do 
 - `watch`: Exibe o tempo em execução em tempo real
 - `calendar [offset]`: Mostra calendário visual do mês
   - `offset`: Deslocamento do mês (0=atual, -1=anterior, 1=próximo)
+- `export <formato> <empresa> [data]`: Exporta relatório em formato específico
+  - Formatos disponíveis: `xls`, `html`
+  - `data` (opcional): Mês/Ano no formato MM/YY (ex: 02/25)
